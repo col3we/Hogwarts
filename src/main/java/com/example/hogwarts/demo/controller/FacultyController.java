@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/facultys")
@@ -46,15 +47,19 @@ public class FacultyController {
         return ResponseEntity.ok(foundFaculty);
     }
 
-    @DeleteMapping("/{id}")  // DELETE http://localhost:8080/facultys/23
+    @DeleteMapping("/{id}")  // DELETE http://localhost:8080/facultys/
     public ResponseEntity deleteFaculty(@PathVariable Long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/color/{color}")   // GET http://localhost:8080/facultys/color/green
+    @GetMapping("/color/{color}")   // GET http://localhost:8080/facultys/color/
     public Collection<Faculty> getFacultiesByColor(@PathVariable String color) {
         return facultyService.findByColor(color);
     }
 
+    @GetMapping("/color/{color}")   // GET http://localhost:8080/facultys/color/
+    public List<Faculty> findByNameContainingIgnoreCaseOrColorContatiningIgnoreCase(@PathVariable String name, String color) {
+        return facultyService.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, color);
+    }
 }
