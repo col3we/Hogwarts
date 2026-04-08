@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class FacultyService {
@@ -45,5 +46,9 @@ public class FacultyService {
 
     public Collection<Faculty> findByColor(String color) {
         return facultyRepository.findByColorIgnoreCase(color);
+    }
+
+    public List<Faculty> findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(String name, String color) {
+        return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, color);
     }
 }

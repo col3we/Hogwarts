@@ -18,7 +18,7 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/{id}") // GET http://localhost:8080/students/23
+    @GetMapping("/{id}") // GET http://localhost:8080/students/
     public ResponseEntity<Student> getBookInfo(@PathVariable Long id) {
         Student student = studentService.findStudent(id);
         if (student == null) {
@@ -46,15 +46,20 @@ public class StudentController {
         return ResponseEntity.ok(foundStudent);
     }
 
-    @DeleteMapping("/{id}")  // DELETE http://localhost:8080/students/23
+    @DeleteMapping("/{id}")  // DELETE http://localhost:8080/students/
     public ResponseEntity deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/age/{age}")      // GET http://localhost:8080/students/age/20
+    @GetMapping("/age/{age}")   // GET http://localhost:8080/students/age/
     public Collection<Student> getStudentsByAge(@PathVariable int age) {
         return studentService.findByAge(age);
+    }
+
+    @GetMapping("/age{age}")    // GET http://localhost:8080/students/age/
+    public Collection<Student> getStudentsByAgeBetween(@PathVariable int age1, @PathVariable int age2) {
+        return studentService.findByAgeBetween(age1, age2);
     }
 
 }
