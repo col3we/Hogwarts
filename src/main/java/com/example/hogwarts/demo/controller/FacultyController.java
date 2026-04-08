@@ -47,19 +47,21 @@ public class FacultyController {
         return ResponseEntity.ok(foundFaculty);
     }
 
-    @DeleteMapping("/{id}")  // DELETE http://localhost:8080/facultys/
+    @DeleteMapping("/{id}")  // DELETE http://localhost:8080/facultys/23
     public ResponseEntity deleteFaculty(@PathVariable Long id) {
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/color/{color}")   // GET http://localhost:8080/facultys/color/
+    @GetMapping("/color/{color}")   // GET http://localhost:8080/facultys/color/{color}
     public Collection<Faculty> getFacultiesByColor(@PathVariable String color) {
         return facultyService.findByColor(color);
     }
 
-    @GetMapping("/color/{color}")   // GET http://localhost:8080/facultys/color/
-    public List<Faculty> findByNameContainingIgnoreCaseOrColorContatiningIgnoreCase(@PathVariable String name, String color) {
+    @GetMapping("/search")     // GET http://localhost:8080/facultys/search
+    public List<Faculty> findByNameContainingIgnoreCaseOrColorContatiningIgnoreCase(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String color) {
         return facultyService.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, color);
     }
 }
