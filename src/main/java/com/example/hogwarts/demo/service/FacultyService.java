@@ -6,6 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+
 
 @Service
 public class FacultyService {
@@ -66,5 +71,46 @@ public class FacultyService {
             logger.warn("Попытка удалить несуществующий факультет ID: {}", id);
         }
         return faculty;
+    }
+
+    public Collection<Faculty> getAllFaculty() {
+        logger.info("Вызван метод получения всех факультетов");
+        logger.debug("Загружаем список всех факультетов из БД");
+
+        Collection<Faculty> faculties = facultyRepository.findAll();
+        logger.info("Загружено факультетов: {}", faculties.size());
+        logger.debug("Список факультетов: {}", faculties);
+
+        return faculties;
+    }
+
+    public Collection<Faculty> findByColor(String color) {
+        logger.info("Вызван метод поиска факультетов по цвету: {}", color);
+        logger.debug("Ищем факультеты с цветом '{}'", color);
+
+        Collection<Faculty> faculties = facultyRepository.findByColorIgnoreCase(color);
+        logger.info("Найдено факультетов с цветом '{}': {}", color, faculties.size());
+        return faculties;
+    }
+
+    public List<Faculty> findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(String name, String color) {
+        logger.info("Вызван метод поиска факультетов по имени '{}' или цвету '{}'", name, color);
+        logger.debug("Комплексный поиск: имя содержит '{}', цвет содержит '{}'", name, color);
+
+        List<Faculty> faculties = facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, color);
+        logger.info("Найдено факультетов по запросу: {}", faculties.size());
+        logger.debug("Результат поиска: {}", faculties);
+
+        return faculties;
+    }
+
+    public String getLongFacultyName() {
+        logger.info("Получено длинное название факультета");
+        List<Faculty> faculties = facultyRepository.findAll();
+        return faculties.parallelStream()
+                .map(Faculty::getName)
+                .filter(Objects::nonNull)
+                .max(Comparator.comparingInt(String::length))
+                .orElse(null);
     }
 }

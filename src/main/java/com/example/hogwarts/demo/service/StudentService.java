@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -128,5 +129,15 @@ public class StudentService {
         logger.debug("Последние студенты: {}", lastStudents.stream().map(Student::getName).toList());
 
         return lastStudents;
+    }
+
+    public List<String> getNameStudentWithA() {
+        return studentRepository.findAll().stream()
+                .map(Student::getName)
+                .filter(name -> name != null && name.toUpperCase().startsWith("A"))
+                .map(String::toUpperCase)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 }
