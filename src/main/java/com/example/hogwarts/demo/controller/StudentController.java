@@ -138,4 +138,17 @@ public class StudentController {
         return studentService.getLastFiveStudents();
     }
 
+    @GetMapping("/a-names")
+    public ResponseEntity<List<String>> getNamesStartingWithA() {
+        List<String> names = studentService.getNameStudentWithA();
+        return ResponseEntity.ok(names);
+    }
+
+    @GetMapping("/sum")
+    public ResponseEntity<Long> getSum() {
+        long n = 1_000_000L;
+        long sum = n * (n + 1) / 2;
+        return ResponseEntity.ok(sum);
+    }
+
 }

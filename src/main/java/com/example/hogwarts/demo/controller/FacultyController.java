@@ -64,4 +64,9 @@ public class FacultyController {
             @RequestParam(required = false) String color) {
         return facultyService.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, color);
     }
+
+    @GetMapping("/longest-faculty")
+    public ResponseEntity<String> getLongestFacultyName() {
+        return ResponseEntity.ok(facultyService.getLongFacultyName());
+    }
 }
